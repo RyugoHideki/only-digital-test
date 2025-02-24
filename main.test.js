@@ -4,7 +4,7 @@ test('Check footer presence and elements on only.digital', async ({ page }) => {
     // Переходим на главную страницу сайта
     await page.goto('https://only.digital/');
 
-    // Проверяем, что футер присутствует на странице
+    // Ожидаем появления футера
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
 
@@ -16,13 +16,16 @@ test('Check footer presence and elements on only.digital', async ({ page }) => {
     const footerText = footer.locator('p');
     await expect(footerText).not.toHaveCount(0);
 
-    // Проверяем наличие ссылок на соцсети (если они есть)
-    const socialMediaLinks = footer.locator('a[href*="telegram"], a[href*="twitter"], a[href*="facebook"], a[href*="instagram"]');
-    const socialMediaCount = await socialMediaLinks.count();
+    // Проверяем наличие ссылки на Telegram
+    const telegramButton = footer.locator('a[href="https://t.me/onlycreativedigitalagency"]');
+    if (await telegramButton.isVisible()) {
+        await expect(telegramButton).toBeVisible();
+        await telegramButton.click();
 
-    if (socialMediaCount > 0) {
-        await expect(socialMediaLinks).not.toHaveCount(0);
+        // Проверяем, что открылась новая вкладка с Telegram
+        const newPage = await page.waitForEvent('popup');
+        await expect(newPage).toHaveURL('https://t.me/onlycreativedigitalagency');
     } else {
-        console.log('Ссылки на социальные сети не найдены в футере.');
+        console.log('Ссылка на Telegram не найдена в футере.');
     }
 });
