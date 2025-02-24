@@ -4,6 +4,8 @@
 
 ## Установка и запуск
 
+npx playwright test
+
 ### Предварительные требования
 
 - Установить [Node.js](https://nodejs.org/) (версия 18 или выше)
@@ -18,12 +20,10 @@ npm install
 Запуск тестов в Docker
 
 Соберите Docker-образ:
-bash
-Copy
+
 docker build -t only-digital-tests .
 Запустите контейнер:
-bash
-Copy
+
 docker run only-digital-tests
 Структура проекта
 
