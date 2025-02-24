@@ -1,0 +1,6 @@
+Запустите тест:
+
+npx playwright test
+
+
+
